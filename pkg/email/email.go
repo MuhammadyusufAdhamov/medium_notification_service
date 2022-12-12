@@ -1,9 +1,10 @@
 package email
 
 import (
-	"blog/config"
 	"bytes"
 	"fmt"
+	"github.com/MuhammadyusufAdhamov/medium_notification_service/config"
+	"html/template"
 	"net/smtp"
 )
 
@@ -15,8 +16,8 @@ type SendEmailRequest struct {
 }
 
 const (
-	VerificationEmail   = "verification_email"
-	ForgotPasswordEmail = "forgot_password_email"
+	VerificationEmail = "verification_email"
+	ForgotPassword    = "forgot_password"
 )
 
 func SendEmail(cfg *config.Config, req *SendEmailRequest) error {
@@ -41,6 +42,7 @@ func SendEmail(cfg *config.Config, req *SendEmailRequest) error {
 
 	auth := smtp.PlainAuth("", from, password, "smtp.gmail.com")
 	err = smtp.SendMail("smtp.gmail.com:587", auth, from, to, msg)
+
 	if err != nil {
 		return err
 	}
@@ -52,7 +54,7 @@ func getTemplatePath(emailType string) string {
 	switch emailType {
 	case VerificationEmail:
 		return "./templates/verification_email.html"
-	case ForgotPasswordEmail:
+	case ForgotPassword:
 		return "./templates/forgot_password_email.html"
 	}
 

@@ -1,2 +1,8 @@
+.env
+.env.docker
 vendor/
-.idea/
+
+.DS_Store
+.vscode/
+
+media/
